@@ -17,7 +17,8 @@ public class ItemLogic : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
     [SerializeField] ItemSlotLogic cs_itemSlotLogic; // might have to make it an array
     [SerializeField] GameObject go_itemSlot; // prefab, might have to make it an array
-    [SerializeField] BackpackManager cs_backpackManager;
+    [SerializeField] StorageManager cs_backpackManager;
+    [SerializeField] StorageManager cs_chestManager;
     #endregion
 
     #region GAMEOBJECTS:
@@ -40,7 +41,8 @@ public class ItemLogic : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         #region GETTING OTHER SCRIPTS:
         go_itemSlot = GameObject.FindGameObjectWithTag("itemSlot"); // might have to make it FindGameObjectsWithTag
         cs_itemSlotLogic = go_itemSlot.GetComponent<ItemSlotLogic>(); // go_itemSlot = GameObject.Find("");
-        cs_backpackManager = GameObject.Find("p_Backpack").GetComponent<BackpackManager>();
+        cs_backpackManager = GameObject.Find("p_Backpack").GetComponent<StorageManager>();
+        cs_chestManager = GameObject.Find("p_Chest").GetComponent<StorageManager>();
         #endregion
 
         #region GETTING GAMEOBJECTS:
@@ -59,8 +61,13 @@ public class ItemLogic : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
         if (transform.parent.parent.name == "BackpackGrid") // if the parent of the parent is "BackpackGrid"
         {
-            cs_backpackManager.items.Remove(eventData.pointerDrag);
+            cs_backpackManager.items.Remove(eventData.pointerDrag); // Removes the pointerDrag Gameobject from the list On begin drag. 
         }
+        else if(transform.parent.parent.name == "ChestGrid")
+        {
+            cs_chestManager.items.Remove(eventData.pointerDrag);
+        }
+
         transform.SetParent(go_player.transform, true); // make the object a child of Player -> on the top layer so that you can see object
         canvasGroup.blocksRaycasts = false; // allows for rays to pass through the object and detect anything behind it.
         canvasGroup.alpha = 0.85f; // change transparency

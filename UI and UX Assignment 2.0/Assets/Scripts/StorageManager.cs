@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BackpackManager : MonoBehaviour
+public class StorageManager : MonoBehaviour
 {
     #region VARIABLES:
     [SerializeField] public List<GameObject> items = new List<GameObject>();
@@ -11,18 +11,23 @@ public class BackpackManager : MonoBehaviour
     #endregion
 
     #region GAMEOBJECTS:
-    [SerializeField] GameObject go_backpackSlot;
-    [SerializeField] GameObject go_backpackGrid;
+    [SerializeField] GameObject go_itemSlot;
+    [SerializeField] GameObject go_itemGrid;
     #endregion
     private void Start()
     {
-        foreach (var slot in existingSlots) // for each existing itemSlot, put it in the List
+        foreach (GameObject slot in existingSlots) // for each existing itemSlot, put it in the List
         {
             itemSlots.Add(slot);
         }
     }
     public void AddSlot() // method to add slots (for Upgrades)
     {
-        itemSlots.Add(Instantiate(go_backpackSlot, go_backpackGrid.transform)); // spawns an itemSlot as a child of backpackGrid
+        itemSlots.Add(Instantiate(go_itemSlot, go_itemGrid.transform)); // spawns an itemSlot as a child of backpackGrid
+    }
+
+    public void SortItems()
+    {
+        items.Sort();
     }
 }
