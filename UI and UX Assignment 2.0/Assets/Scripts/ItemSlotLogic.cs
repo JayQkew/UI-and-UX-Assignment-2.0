@@ -11,7 +11,6 @@ public class ItemSlotLogic : MonoBehaviour, IDropHandler
 {
     #region VARIABLES:
     [SerializeField] public bool slotAvailable;
-    public int itemListIndex;
     #endregion
 
     #region COMPONENTS:
@@ -41,9 +40,7 @@ public class ItemSlotLogic : MonoBehaviour, IDropHandler
 
         if (transform.parent.name == "BackpackGrid") // if the itemSlots parent is "BackpackGrid"
         {
-            cs_backpackManager.items.Add(eventData.pointerDrag);
-            itemListIndex = cs_backpackManager.items.IndexOf(eventData.pointerDrag);
-            Debug.Log("Index: " + cs_backpackManager.items.IndexOf(eventData.pointerDrag));
+            cs_backpackManager.items.Add(eventData.pointerDrag); // add item onto the list
         }
     }
 }

@@ -9,6 +9,9 @@ using UnityEngine.EventSystems;
  */
 public class ItemLogic : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
+    #region VARIABLES:
+    #endregion
+
     #region OTHER SCRIPTS:
     [SerializeField] SO_items s0_items;
 
@@ -52,21 +55,17 @@ public class ItemLogic : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log("parent: " + transform.parent.name);
-        Debug.Log("parent of parent: " + transform.parent.parent.name);
-
         startingParent = transform.parent; // make the startingParent its current parent
+
+        if (transform.parent.parent.name == "BackpackGrid") // if the parent of the parent is "BackpackGrid"
+        {
+            cs_backpackManager.items.Remove(eventData.pointerDrag);
+        }
         transform.SetParent(go_player.transform, true); // make the object a child of Player -> on the top layer so that you can see object
         canvasGroup.blocksRaycasts = false; // allows for rays to pass through the object and detect anything behind it.
         canvasGroup.alpha = 0.85f; // change transparency
         // Debug.Log(startingParent.name);
 
-        if(transform.parent.parent.name == "BackpackGrid") // if the parent of the parent is "BackpackGrid"
-        {
-            Debug.Log("here1");
-            cs_backpackManager.items.RemoveAt(cs_itemSlotLogic.itemListIndex); // remove the item from the items list
-            Debug.Log("here2");
-        }
     }
 
     public void OnDrag(PointerEventData eventData)
