@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 458746727941636559}
   m_Layer: 5
   m_Name: Tomato
-  m_TagString: Untagged
+  m_TagString: tomato
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -91,14 +91,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   s0_items: {fileID: 11400000, guid: 0736403753c38f141970763c0ebbdd43, type: 2}
-  cs_itemSlotLogic: {fileID: 0}
-  go_itemSlot: {fileID: 0}
-  divider: {fileID: 0}
-  player: {fileID: 0}
-  canvasGroup: {fileID: 458746727941636559}
-  rectTransform: {fileID: 458746727941636547}
-  canvas: {fileID: 0}
-  startingParent: {fileID: 0}
+  cs_backpackManager: {fileID: 0}
+  cs_chestManager: {fileID: 0}
+  cs_playerManager: {fileID: 0}
 --- !u!225 &458746727941636559
 CanvasGroup:
   m_ObjectHideFlags: 0

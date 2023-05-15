@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1686017834999441457}
   m_Layer: 5
   m_Name: Patty
-  m_TagString: Untagged
+  m_TagString: patty
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -91,14 +91,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   s0_items: {fileID: 11400000, guid: f9ecec61b6f8ca34e8358def20603920, type: 2}
-  cs_itemSlotLogic: {fileID: 0}
-  go_itemSlot: {fileID: 0}
-  divider: {fileID: 0}
-  player: {fileID: 0}
-  canvasGroup: {fileID: 1686017834999441457}
-  rectTransform: {fileID: 1686017834999441469}
-  canvas: {fileID: 0}
-  startingParent: {fileID: 0}
+  cs_backpackManager: {fileID: 0}
+  cs_chestManager: {fileID: 0}
+  cs_playerManager: {fileID: 0}
 --- !u!225 &1686017834999441457
 CanvasGroup:
   m_ObjectHideFlags: 0

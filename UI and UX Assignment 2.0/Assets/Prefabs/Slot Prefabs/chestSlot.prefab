@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3888017173209566293}
   - component: {fileID: 5081534579241768878}
   - component: {fileID: 7053871158632048878}
-  - component: {fileID: 4501757686374888444}
   - component: {fileID: 8081482403606782108}
   m_Layer: 5
   m_Name: chestSlot
@@ -68,7 +67,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a1233d467f4d0194a89e41f116f27acd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fe6c7c43fabb79142a4c7984eb5525af, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -78,21 +77,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4501757686374888444
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4298051135815123973}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 109fe919f53af9943b9bee8721f75e3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rectTransform: {fileID: 3888017173209566293}
-  cs_itemLogic: {fileID: 9032785580265777416, guid: fb2747634cb1fd24791d35aa4771622e, type: 3}
-  go_item: {fileID: 9032785580265777418, guid: fb2747634cb1fd24791d35aa4771622e, type: 3}
 --- !u!114 &8081482403606782108
 MonoBehaviour:
   m_ObjectHideFlags: 0

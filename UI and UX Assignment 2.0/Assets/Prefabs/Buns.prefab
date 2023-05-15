@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 9032785580265777415}
   m_Layer: 5
   m_Name: Buns
-  m_TagString: Untagged
+  m_TagString: buns
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -91,14 +91,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   s0_items: {fileID: 11400000, guid: 226f8817c62e96d4cb816c807edfcc6e, type: 2}
-  cs_itemSlotLogic: {fileID: 0}
-  go_itemSlot: {fileID: 0}
-  divider: {fileID: 0}
-  player: {fileID: 0}
-  canvasGroup: {fileID: 9032785580265777415}
-  rectTransform: {fileID: 9032785580265777419}
-  canvas: {fileID: 0}
-  startingParent: {fileID: 0}
+  cs_backpackManager: {fileID: 0}
+  cs_chestManager: {fileID: 0}
+  cs_playerManager: {fileID: 0}
 --- !u!225 &9032785580265777415
 CanvasGroup:
   m_ObjectHideFlags: 0

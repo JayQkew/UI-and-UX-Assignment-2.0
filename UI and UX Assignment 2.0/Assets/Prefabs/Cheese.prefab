@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3908013518847715204}
   m_Layer: 5
   m_Name: Cheese
-  m_TagString: Untagged
+  m_TagString: cheese
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -91,14 +91,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   s0_items: {fileID: 11400000, guid: 355d4b0ca02b4024e8d910322d11782d, type: 2}
-  cs_itemSlotLogic: {fileID: 0}
-  go_itemSlot: {fileID: 0}
-  divider: {fileID: 0}
-  player: {fileID: 0}
-  canvasGroup: {fileID: 3908013518847715204}
-  rectTransform: {fileID: 3908013518847715208}
-  canvas: {fileID: 0}
-  startingParent: {fileID: 0}
+  cs_backpackManager: {fileID: 0}
+  cs_chestManager: {fileID: 0}
+  cs_playerManager: {fileID: 0}
 --- !u!225 &3908013518847715204
 CanvasGroup:
   m_ObjectHideFlags: 0

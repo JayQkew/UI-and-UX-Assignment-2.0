@@ -6,6 +6,12 @@ TagManager:
   tags:
   - backpackItem
   - itemSlot
+  - buns
+  - cheese
+  - lettuce
+  - patty
+  - sauce
+  - tomato
   layers:
   - Default
   - TransparentFX

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6984210700641297108}
   m_Layer: 5
   m_Name: Lettuce
-  m_TagString: Untagged
+  m_TagString: lettuce
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -91,14 +91,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   s0_items: {fileID: 11400000, guid: 7794ad875ca96684a8f6da4f8fe200ea, type: 2}
-  cs_itemSlotLogic: {fileID: 0}
-  go_itemSlot: {fileID: 0}
-  divider: {fileID: 0}
-  player: {fileID: 0}
-  canvasGroup: {fileID: 6984210700641297108}
-  rectTransform: {fileID: 6984210700641297112}
-  canvas: {fileID: 0}
-  startingParent: {fileID: 0}
+  cs_backpackManager: {fileID: 0}
+  cs_chestManager: {fileID: 0}
+  cs_playerManager: {fileID: 0}
 --- !u!225 &6984210700641297108
 CanvasGroup:
   m_ObjectHideFlags: 0

@@ -7,82 +7,122 @@ using UnityEngine.EventSystems;
 /*
  * Exisits on each item prefab.
  */
-public class ItemLogic : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
+public class ItemLogic : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
     #region VARIABLES:
     #endregion
 
     #region OTHER SCRIPTS:
-    [SerializeField] SO_items s0_items;
+    [SerializeField] public SO_items s0_items;
 
-    [SerializeField] ItemSlotLogic cs_itemSlotLogic; // might have to make it an array
-    [SerializeField] GameObject go_itemSlot; // prefab, might have to make it an array
     [SerializeField] StorageManager cs_backpackManager;
     [SerializeField] StorageManager cs_chestManager;
+
+    [SerializeField] PlayerManager cs_playerManager;
+
+    [SerializeField] ResellLogic cs_resellLogic;
     #endregion
 
     #region GAMEOBJECTS:
-    [SerializeField] GameObject go_divider;
-    [SerializeField] GameObject go_player;
     #endregion
 
     #region COMPONENTS:
-    [SerializeField] CanvasGroup canvasGroup;
-    [SerializeField] RectTransform rectTransform;
     #endregion
 
     #region OTHER COMPONENTS:
-    public Transform startingParent;
-    [SerializeField] Canvas canvas;
     #endregion
 
     private void Awake()
     {
         #region GETTING OTHER SCRIPTS:
-        go_itemSlot = GameObject.FindGameObjectWithTag("itemSlot"); // might have to make it FindGameObjectsWithTag
-        cs_itemSlotLogic = go_itemSlot.GetComponent<ItemSlotLogic>(); // go_itemSlot = GameObject.Find("");
         cs_backpackManager = GameObject.Find("p_Backpack").GetComponent<StorageManager>();
         cs_chestManager = GameObject.Find("p_Chest").GetComponent<StorageManager>();
+
+        cs_playerManager = GameObject.Find("Player").GetComponent<PlayerManager>();
+
+        cs_resellLogic = GameObject.Find("ResellArea").GetComponent<ResellLogic>();
         #endregion
 
         #region GETTING GAMEOBJECTS:
-        go_divider = GameObject.Find("Divider");
-        go_player = GameObject.Find("Player");
         #endregion
 
         #region GETTING COMPONENTS:
-        canvas = GameObject.Find("Canvas").GetComponent<Canvas>(); // find object + get component
         #endregion
+    }
+
+    private void Update()
+    {
+        InfiniteStorage();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        startingParent = transform.parent; // make the startingParent its current parent
-
-        if (transform.parent.parent.name == "BackpackGrid") // if the parent of the parent is "BackpackGrid"
-        {
-            cs_backpackManager.items.Remove(eventData.pointerDrag); // Removes the pointerDrag Gameobject from the list On begin drag. 
-        }
-        else if(transform.parent.parent.name == "ChestGrid")
-        {
-            cs_chestManager.items.Remove(eventData.pointerDrag);
-        }
-
-        transform.SetParent(go_player.transform, true); // make the object a child of Player -> on the top layer so that you can see object
-        canvasGroup.blocksRaycasts = false; // allows for rays to pass through the object and detect anything behind it.
-        canvasGroup.alpha = 0.85f; // change transparency
-        // Debug.Log(startingParent.name);
+        eventData.pointerDrag.GetComponent<CanvasGroup>().blocksRaycasts = false;
 
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
+        eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition += eventData.delta / GameObject.Find("Canvas").GetComponent<Canvas>().scaleFactor;
     }
-
     public void OnEndDrag(PointerEventData eventData)
     {
-        canvasGroup.blocksRaycasts = true;
-        canvasGroup.alpha = 1f;
+        eventData.pointerDrag.GetComponent<CanvasGroup>().blocksRaycasts = true;
+
+        switch (transform.parent.parent.name) // if the parent of the parent is ...
+        {
+            case "BackpackGrid":
+                cs_backpackManager.items.Remove(eventData.pointerDrag); // remove from the backpack items list
+                cs_chestManager.items.Add(eventData.pointerDrag); // add it to the chest items list
+
+                SortItem(eventData, cs_chestManager);
+                break;
+            case "ChestGrid":
+                cs_chestManager.items.Remove(eventData.pointerDrag); // remove from the chest items list
+                cs_backpackManager.items.Add(eventData.pointerDrag); // add to the backpack items list
+
+                InfiniteStorage();
+                SortItem(eventData, cs_backpackManager);
+                break;
+            case "p_Shop":
+                cs_backpackManager.items.Add(eventData.pointerDrag); // add to the backpack items list
+
+                SortItem(eventData, cs_backpackManager);
+                break;
+            case "p_Backpack":
+                cs_backpackManager.items.Remove(eventData.pointerDrag);
+                cs_resellLogic.resoldItems.Add(eventData.pointerDrag);
+                break;
+            default:
+                break;
+        }
     }
+
+    public void SortItem(PointerEventData eventData, StorageManager script) // the place youre moving the item to
+    {
+        for (int i = 0; i < script.itemSlots.Count; i++)
+        {
+            if (script.itemSlots[i].transform.childCount == 0) // if the slot has no children (child count = 0)
+            {
+                eventData.pointerDrag.transform.position = script.itemSlots[i].transform.position; //  make the transform the same as the itemSot with the matching index
+                eventData.pointerDrag.transform.SetParent(script.itemSlots[i].transform); // parent it to that slot
+            }
+        }
+
+    }
+
+    private void InfiniteStorage()
+    {
+        if(cs_chestManager.infiniteChest == true) // if player has upgraded chest to lvl 2
+        {
+            if (cs_chestManager.items.Count >= cs_chestManager.itemSlots.Count) // if the amount of chest items >= chest itemSlots - 5, then spawn 5 more item slots
+            {
+                for(int i = 0; i < 5; i++)
+                {
+                    cs_chestManager.AddSlot(); // add 5 more slots
+                }
+            }
+        }
+    }
+
 }
