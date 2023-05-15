@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -15,19 +14,26 @@ public class ResellLogic : MonoBehaviour, IDropHandler
     #region OTHER SCRIPTS:
     [SerializeField] PlayerManager cs_playerManager;
     [SerializeField] SO_items[] s0_items = new SO_items[6];
+    [SerializeField] ItemLogic cs_itemLogic;
+    [SerializeField] GameObject go_item;
+
+    [SerializeField] StorageManager cs_backpackManager;
     #endregion
 
     #region COMPONENTS:
-    [SerializeField] TextMeshProUGUI tmp_resellAmount;
+    [SerializeField] public TextMeshProUGUI tmp_resellAmount;
     #endregion
 
     private void Awake()
     {
         cs_playerManager = GameObject.Find("Player").GetComponent<PlayerManager>();
+        cs_itemLogic = go_item.GetComponent<ItemLogic>();
+        cs_backpackManager = GameObject.Find("p_Backpack").GetComponent<StorageManager>();
     }
     public void OnDrop(PointerEventData eventData)
     {
         eventData.pointerDrag.transform.SetParent(transform); // parent the object to this object
+        eventData.pointerDrag.transform.position = eventData.pointerDrag.transform.position;
         switch (eventData.pointerDrag.tag)
         {
             case "buns":
@@ -50,14 +56,14 @@ public class ResellLogic : MonoBehaviour, IDropHandler
                 break;
             default: break;
             }
-        tmp_resellAmount.text = resellAmount.ToString();
+        tmp_resellAmount.text = resellAmount.ToString(); // show the resellAmount on text
     }
 
     public void SellButton()
     {
         for (int i = 0; i < transform.childCount; i++) // loop for as long as the childCount
         {
-            switch (transform.GetChild(i).tag)
+            switch (transform.GetChild(i).tag) // gets all the children with the specified tags
             {
                 case "buns":
                     resellCost = s0_items[0].itemResellCost;
@@ -80,7 +86,9 @@ public class ResellLogic : MonoBehaviour, IDropHandler
                     default: break;
             }
             cs_playerManager.playerCurrency += resellCost; // add the resell value to the player currency
+            cs_backpackManager.items.Remove(transform.GetChild(i).gameObject);
             transform.GetChild(i).gameObject.SetActive(false);
+            transform.GetChild(i).SetParent(GameObject.Find("theAbyss").transform);
         }
 
         resellAmount = 0;

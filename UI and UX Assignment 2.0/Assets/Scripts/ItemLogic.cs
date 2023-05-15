@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -10,6 +7,7 @@ using UnityEngine.EventSystems;
 public class ItemLogic : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
     #region VARIABLES:
+    [SerializeField] Transform startingParent;
     #endregion
 
     #region OTHER SCRIPTS:
@@ -58,6 +56,18 @@ public class ItemLogic : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDra
     public void OnBeginDrag(PointerEventData eventData)
     {
         eventData.pointerDrag.GetComponent<CanvasGroup>().blocksRaycasts = false;
+        startingParent = eventData.pointerDrag.transform.parent;
+
+        if (eventData.pointerDrag.transform.parent.name == "ResellArea" && eventData.pointerDrag.transform.position.x <= 500f)
+        {
+            cs_resellLogic.resellAmount -= s0_items.itemResellCost;
+            cs_resellLogic.tmp_resellAmount.text = cs_resellLogic.resellAmount.ToString();
+        }
+        else if (eventData.pointerDrag.transform.parent.name == "ResellArea" && eventData.pointerDrag.transform.position.y <= 103f)
+        {
+            cs_resellLogic.resellAmount -= s0_items.itemResellCost;
+            cs_resellLogic.tmp_resellAmount.text = cs_resellLogic.resellAmount.ToString();
+        }
 
     }
 
@@ -89,13 +99,30 @@ public class ItemLogic : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDra
 
                 SortItem(eventData, cs_backpackManager);
                 break;
-            case "p_Backpack":
-                cs_backpackManager.items.Remove(eventData.pointerDrag);
-                cs_resellLogic.resoldItems.Add(eventData.pointerDrag);
-                break;
             default:
                 break;
         }
+
+        if (startingParent.name == "ResellArea" && eventData.pointerDrag.transform.position.x >= 500f)
+        {
+            if (cs_backpackManager.items.Contains(eventData.pointerDrag) == false) 
+            {
+                cs_backpackManager.items.Add(eventData.pointerDrag);
+            }
+            // cs_resellLogic.resellAmount -= s0_items.itemResellCost;
+            SortItem(eventData, cs_backpackManager);
+        }
+        else if (startingParent.name == "ResellArea" && eventData.pointerDrag.transform.position.y >= 103f)
+        {
+            if (cs_backpackManager.items.Contains(eventData.pointerDrag) == false)
+            {
+                cs_backpackManager.items.Add(eventData.pointerDrag);
+            }
+            // cs_resellLogic.resellAmount -= s0_items.itemResellCost;
+            SortItem(eventData, cs_backpackManager);
+        }
+
+        cs_resellLogic.tmp_resellAmount.text = cs_resellLogic.resellAmount.ToString();
     }
 
     public void SortItem(PointerEventData eventData, StorageManager script) // the place youre moving the item to
