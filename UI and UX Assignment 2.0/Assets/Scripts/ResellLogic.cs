@@ -18,6 +18,7 @@ public class ResellLogic : MonoBehaviour, IDropHandler
     [SerializeField] GameObject go_item;
 
     [SerializeField] StorageManager cs_backpackManager;
+    [SerializeField] StorageManager cs_chestManager;
     #endregion
 
     #region COMPONENTS:
@@ -29,6 +30,7 @@ public class ResellLogic : MonoBehaviour, IDropHandler
         cs_playerManager = GameObject.Find("Player").GetComponent<PlayerManager>();
         cs_itemLogic = go_item.GetComponent<ItemLogic>();
         cs_backpackManager = GameObject.Find("p_Backpack").GetComponent<StorageManager>();
+        cs_chestManager = GameObject.Find("p_Chest").GetComponent<StorageManager>();
     }
     public void OnDrop(PointerEventData eventData)
     {
@@ -87,6 +89,7 @@ public class ResellLogic : MonoBehaviour, IDropHandler
             }
             cs_playerManager.playerCurrency += resellCost; // add the resell value to the player currency
             cs_backpackManager.items.Remove(transform.GetChild(i).gameObject);
+            cs_chestManager.items.Remove(transform.GetChild(i).gameObject);
             transform.GetChild(i).gameObject.SetActive(false);
             transform.GetChild(i).SetParent(GameObject.Find("theAbyss").transform);
         }

@@ -8,6 +8,7 @@ public class ItemLogic : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDra
 {
     #region VARIABLES:
     [SerializeField] Transform startingParent;
+    [SerializeField] Vector3 startingPosition;
     #endregion
 
     #region OTHER SCRIPTS:
@@ -55,8 +56,25 @@ public class ItemLogic : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDra
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        
         eventData.pointerDrag.GetComponent<CanvasGroup>().blocksRaycasts = false;
         startingParent = eventData.pointerDrag.transform.parent;
+
+        if(eventData.pointerDrag.transform.parent.name == "itemSpawn" && cs_backpackManager.items.Count == cs_backpackManager.itemSlots.Count) // if backpack is full, from shop
+        {
+            eventData.pointerDrag.GetComponent <CanvasGroup>().blocksRaycasts = true;
+            startingPosition = eventData.pointerDrag.transform.position;
+        }
+        else if(eventData.pointerDrag.transform.parent.parent.name == "BackpackGrid" && cs_chestManager.items.Count == cs_chestManager.itemSlots.Count) // if chest is full
+        {
+            eventData.pointerDrag.GetComponent<CanvasGroup>().blocksRaycasts = true;
+            startingPosition = eventData.pointerDrag.transform.position;
+        }
+        else if (eventData.pointerDrag.transform.parent.parent.name == "ChestGrid" && cs_backpackManager.items.Count == cs_backpackManager.itemSlots.Count) // if backpack is full from shop
+        {
+            eventData.pointerDrag.GetComponent<CanvasGroup>().blocksRaycasts = true;
+            startingPosition = eventData.pointerDrag.transform.position;
+        }
 
         if (eventData.pointerDrag.transform.parent.name == "ResellArea" && eventData.pointerDrag.transform.position.x <= 500f)
         {
@@ -82,22 +100,30 @@ public class ItemLogic : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDra
         switch (transform.parent.parent.name) // if the parent of the parent is ...
         {
             case "BackpackGrid":
-                cs_backpackManager.items.Remove(eventData.pointerDrag); // remove from the backpack items list
-                cs_chestManager.items.Add(eventData.pointerDrag); // add it to the chest items list
+                if(cs_chestManager.items.Count < cs_chestManager.itemSlots.Count) // if the chest has space
+                {
+                    cs_backpackManager.items.Remove(eventData.pointerDrag); // remove from the backpack items list
+                    cs_chestManager.items.Add(eventData.pointerDrag); // add it to the chest items list
 
-                SortItem(eventData, cs_chestManager);
+                    SortItem(eventData, cs_chestManager);
+                }
                 break;
             case "ChestGrid":
-                cs_chestManager.items.Remove(eventData.pointerDrag); // remove from the chest items list
-                cs_backpackManager.items.Add(eventData.pointerDrag); // add to the backpack items list
+                if (cs_backpackManager.items.Count < cs_backpackManager.itemSlots.Count) // if the backpack has space
+                {
+                    cs_chestManager.items.Remove(eventData.pointerDrag); // remove from the chest items list
+                    cs_backpackManager.items.Add(eventData.pointerDrag); // add to the backpack items list
 
-                InfiniteStorage();
-                SortItem(eventData, cs_backpackManager);
+                    InfiniteStorage();
+                    SortItem(eventData, cs_backpackManager);
+                }
                 break;
             case "p_Shop":
-                cs_backpackManager.items.Add(eventData.pointerDrag); // add to the backpack items list
-
-                SortItem(eventData, cs_backpackManager);
+                if(cs_backpackManager.items.Count < cs_backpackManager.itemSlots.Count) // if the backpack has space
+                {
+                    cs_backpackManager.items.Add(eventData.pointerDrag); // add to the backpack items list
+                    SortItem(eventData, cs_backpackManager);
+                }
                 break;
             default:
                 break;
@@ -109,7 +135,6 @@ public class ItemLogic : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDra
             {
                 cs_backpackManager.items.Add(eventData.pointerDrag);
             }
-            // cs_resellLogic.resellAmount -= s0_items.itemResellCost;
             SortItem(eventData, cs_backpackManager);
         }
         else if (startingParent.name == "ResellArea" && eventData.pointerDrag.transform.position.y >= 103f)
@@ -118,8 +143,20 @@ public class ItemLogic : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDra
             {
                 cs_backpackManager.items.Add(eventData.pointerDrag);
             }
-            // cs_resellLogic.resellAmount -= s0_items.itemResellCost;
             SortItem(eventData, cs_backpackManager);
+        }
+
+        if(startingParent.name == "itemSpawn" && cs_backpackManager.items.Count == cs_backpackManager.itemSlots.Count)
+        {
+            eventData.pointerDrag.transform.position = startingPosition;
+        }
+        else if (eventData.pointerDrag.transform.parent.parent.name == "BackpackGrid" && cs_chestManager.items.Count == cs_chestManager.itemSlots.Count)
+        {
+            eventData.pointerDrag.transform.position = startingPosition;
+        }
+        else if (eventData.pointerDrag.transform.parent.parent.name == "ChestGrid" && cs_backpackManager.items.Count == cs_backpackManager.itemSlots.Count)
+        {
+            eventData.pointerDrag.transform.position = startingPosition;
         }
 
         cs_resellLogic.tmp_resellAmount.text = cs_resellLogic.resellAmount.ToString();

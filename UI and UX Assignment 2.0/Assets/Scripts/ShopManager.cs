@@ -20,6 +20,8 @@ public class ShopManager : MonoBehaviour, IPointerClickHandler
  
     private float xPos;
     private float yPos;
+
+    public Vector3 itemStartingPosition;
     #endregion
 
     #region OTHER SCRIPTS:

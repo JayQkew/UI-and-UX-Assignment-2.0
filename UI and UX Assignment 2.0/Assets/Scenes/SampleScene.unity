@@ -2346,7 +2346,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.73233336, y: 0.5}
   m_AnchorMax: {x: 0.73233336, y: 0.5}
-  m_AnchoredPosition: {x: -0.000015258789, y: -47}
+  m_AnchoredPosition: {x: 0, y: -47}
   m_SizeDelta: {x: 445, y: 330}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &602882144
@@ -2789,6 +2789,7 @@ GameObject:
   - component: {fileID: 754103625}
   - component: {fileID: 754103627}
   - component: {fileID: 754103626}
+  - component: {fileID: 754103628}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -2915,6 +2916,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 754103624}
   m_CullTransparentMesh: 1
+--- !u!225 &754103628
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 754103624}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &777859987
 GameObject:
   m_ObjectHideFlags: 0
@@ -7640,6 +7653,7 @@ MonoBehaviour:
   cs_itemLogic: {fileID: 9032785580265777416, guid: fb2747634cb1fd24791d35aa4771622e, type: 3}
   go_item: {fileID: 9032785580265777418, guid: fb2747634cb1fd24791d35aa4771622e, type: 3}
   cs_backpackManager: {fileID: 1622051146}
+  cs_chestManager: {fileID: 0}
   tmp_resellAmount: {fileID: 1166992575}
 --- !u!114 &1868243509 stripped
 MonoBehaviour:
